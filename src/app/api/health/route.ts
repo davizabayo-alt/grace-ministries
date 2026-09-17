@@ -1,0 +1,24 @@
+import { db, databaseDriverName } from "@/db";
+import { sql } from "drizzle-orm";
+
+export const dynamic = "force-dynamic";
+
+export async function GET() {
+  try {
+    await db.execute(sql`select 1`);
+    return Response.json({
+      status: "ok",
+      database: "connected",
+      driver: databaseDriverName(),
+    });
+  } catch {
+    return Response.json(
+      {
+        status: "error",
+        database: "disconnected",
+        driver: databaseDriverName(),
+      },
+      { status: 500 }
+    );
+  }
+}

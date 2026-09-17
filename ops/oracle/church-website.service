@@ -1,0 +1,24 @@
+[Unit]
+Description=Grace Covenant Church website
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=church
+Group=church
+WorkingDirectory=/opt/church-website
+EnvironmentFile=/etc/church-website.env
+Environment=NODE_ENV=production
+Environment=PORT=3000
+ExecStart=/usr/bin/npm start
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/church-website
+
+[Install]
+WantedBy=multi-user.target
