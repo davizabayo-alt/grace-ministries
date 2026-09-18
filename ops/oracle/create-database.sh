@@ -34,16 +34,16 @@ runuser -u postgres -- psql -v ON_ERROR_STOP=1 \
   --set=db_user="${DB_USER}" \
   --set=db_password="${DB_PASSWORD}" <<'SQL'
 SELECT format('CREATE ROLE %I LOGIN PASSWORD %L', :'db_user', :'db_password')
-WHERE NOT EXISTS (SELECT FROM pg_roles WHERE rolname = :'db_user')\\gexec
+WHERE NOT EXISTS (SELECT FROM pg_roles WHERE rolname = :'db_user')\gexec
 SELECT format('ALTER ROLE %I LOGIN PASSWORD %L', :'db_user', :'db_password')
-WHERE EXISTS (SELECT FROM pg_roles WHERE rolname = :'db_user')\\gexec
+WHERE EXISTS (SELECT FROM pg_roles WHERE rolname = :'db_user')\gexec
 SQL
 
 runuser -u postgres -- psql -v ON_ERROR_STOP=1 \
   --set=db_user="${DB_USER}" \
   --set=db_name="${DB_NAME}" <<'SQL'
 SELECT format('CREATE DATABASE %I OWNER %I', :'db_name', :'db_user')
-WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = :'db_name')\\gexec
+WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = :'db_name')\gexec
 SQL
 
 echo "Database and application role are ready."
